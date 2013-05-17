@@ -1,4 +1,3 @@
-
 ANN 
 ===
 
@@ -12,4 +11,4 @@ Artificial neuron with input synapses X1 -> Xn and their respective current weig
 
 Transfer function (Sigma) sums the product of each input with its weight
 
-Activation function outputs a value of 1 if Sigma produces a value above the neuron's current threshold (Theta j)
+Activation function outputs a value of 1 if Sigma produces a net input above the neuron's current threshold (Theta j)
