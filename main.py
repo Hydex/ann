@@ -4,6 +4,8 @@ from numpy import exp
 from time import sleep
 from os import system
 
+from training_data import training_data
+
 sigmoid = lambda x: 1 / (1 + exp(-x))
             
 
@@ -95,10 +97,9 @@ for i in range(len(r)):
 
 learning = True
 
-while learning:
-    learning = False
-
-print 'ha sucka'
+for datum in training_data:
+    
+    
 
 
 
