@@ -5,6 +5,32 @@ from time import sleep
 from os import system
 
 sigmoid = lambda x: 1 / (1 + exp(-x))
+            
+
+class Neuron:
+    def __init__(self, neuron_id, Ann, is_input=False, value=1):
+        self.id = neuron_id
+        self.bias = 0
+        self.Ann = Ann
+        self.is_input = is_input
+        self.output_value = value
+        
+    def activation(self, sigma):
+        #return int(bool(sigma))
+        return sigmoid(sigma)
+    
+    def output(self):
+        if self.is_input:
+            return self.output_value
+        sigma = self.bias
+        synapses = self.Ann.synapsesAt(self.id)
+        for synapse_id in synapses:
+            sigma += self.Ann.valueAt(synapse_id) * synapses[synapse_id]
+        return self.activation(sigma)
+    
+    def setValue(self, value):
+        self.output_value = value
+
 
 class ANN:
     def __init__(self):
@@ -39,31 +65,6 @@ class ANN:
         if not self.synapses.has_key(source_neuron.id):
             self.synapses[source_neuron.id] = dict()
         self.synapses[source_neuron.id][dest_neuron.id] = weight
-            
-
-class Neuron:
-    def __init__(self, neuron_id, Ann, is_input=False, value=1):
-        self.id = neuron_id
-        self.bias = 0
-        self.Ann = Ann
-        self.is_input = is_input
-        self.output_value = value
-        
-    def activation(self, sigma):
-        #return int(bool(sigma))
-        return sigmoid(sigma)
-    
-    def output(self):
-        if self.is_input:
-            return self.output_value
-        sigma = self.bias
-        synapses = self.Ann.synapsesAt(self.id)
-        for synapse_id in synapses:
-            sigma += self.Ann.valueAt(synapse_id) * synapses[synapse_id]
-        return self.activation(sigma)
-    
-    def setValue(self, value):
-        self.output_value = value
 
 
 ann = ANN()
