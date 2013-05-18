@@ -8,6 +8,7 @@ sigmoid = lambda x: 1 / (1 + exp(-x))
             
 
 class Neuron:
+    
     def __init__(self, neuron_id, Ann, is_input=False, value=1):
         self.id = neuron_id
         self.bias = 0
@@ -33,6 +34,7 @@ class Neuron:
 
 
 class ANN:
+    
     def __init__(self):
         self.neurons = list()
         self.synapses = dict()
@@ -68,13 +70,13 @@ class ANN:
 
 
 ann = ANN()
-ann.addNeuron(5)
+ann.addNeuron(6)
 n = ann.neurons
 r = dict()
 
 r[0] = n[0:2]
-r[1] = n[2:4]
-r[2] = n[4:5]
+r[1] = n[2:5]
+r[2] = n[5:7]
 
 for btm_neuron in r[0]:
     btm_neuron.is_input = True
@@ -82,21 +84,52 @@ for btm_neuron in r[0]:
 
 ann.connectAllToAll (r[0], r[1]) (r[1], r[2])
 
-
 print
-for i in xrange(len(r)):
-    print 'row', i + 1, 'size:', len(r[i])
+for i in range(len(r)):
+    print 'row', i + 1, 'size:', len(r[i]), ', members:',
+    for huh in r[i]:
+        print huh.id,
+    print
 
 
 
-for b in range(80, 100):
-    for a in range(80, 1000):
-        n[0].output_value = a / 100.0
-        n[1].output_value = b / 100.0
+learning = True
+
+while learning:
+    learning = False
+
+print 'ha sucka'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"""
+for b in range(0, 10):
+    for a in range(0, 10):
+        n[0].output_value = a / 10.0
+        n[1].output_value = b / 10.0
 
         output_string  = 'a= %f\n' % round(n[0].output_value, 4)
         output_string += 'b= %f\n' % round(n[1].output_value, 4)
         output_string += 'neuron= %f' % n[4].output()
-        
 
-
+        system('clear')
+        print output_string
+        sleep(0.1)
+"""
