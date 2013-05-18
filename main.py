@@ -51,7 +51,7 @@ class Neuron:
         print 'computing output for', self.id
         if self.is_input:
             return self.value
-        sigma = 
+        sigma = 0
         #print 'synapses'
         synapses = self.Ann.synapsesAt(self.id)
         #print synapses
