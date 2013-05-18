@@ -95,14 +95,6 @@ for i in range(len(r)):
 
 
 
-learning = True
-
-for datum in training_data:
-    
-    
-
-
-
 
 
 
