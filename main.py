@@ -1,4 +1,8 @@
+#!/usr/bin/python2.7
+
 from numpy import exp
+from time import sleep
+from os import system
 
 sigmoid = lambda x: 1 / (1 + exp(-x))
 
@@ -40,40 +44,58 @@ class ANN:
 class Neuron:
     def __init__(self, neuron_id, Ann, is_input=False, value=1):
         self.id = neuron_id
+        self.bias = 0
         self.Ann = Ann
         self.is_input = is_input
-        self.value = value
+        self.output_value = value
         
     def activation(self, sigma):
+        #return int(bool(sigma))
         return sigmoid(sigma)
     
     def output(self):
-        print 'computing output for', self.id
         if self.is_input:
-            return self.value
-        sigma = 0
-        #print 'synapses'
+            return self.output_value
+        sigma = self.bias
         synapses = self.Ann.synapsesAt(self.id)
-        #print synapses
         for synapse_id in synapses:
             sigma += self.Ann.valueAt(synapse_id) * synapses[synapse_id]
         return self.activation(sigma)
     
     def setValue(self, value):
-        self.value = value
+        self.output_value = value
 
 
 ann = ANN()
-ann.addNeuron(6)
+ann.addNeuron(5)
 n = ann.neurons
 r = dict()
-r[0] = n[0:3]
+
+r[0] = n[0:2]
+r[1] = n[2:4]
+r[2] = n[4:5]
+
 for btm_neuron in r[0]:
-    # make all bottom row neurons inputs
     btm_neuron.is_input = True
-    btm_neuron.value = 1
-    
-r[1] = n[3:5]
-r[2] = n[5:6]
+    btm_neuron.output_value = 1
 
 ann.connectAllToAll (r[0], r[1]) (r[1], r[2])
+
+
+print
+for i in xrange(len(r)):
+    print 'row', i + 1, 'size:', len(r[i])
+
+
+
+for b in range(80, 100):
+    for a in range(80, 1000):
+        n[0].output_value = a / 100.0
+        n[1].output_value = b / 100.0
+
+        output_string  = 'a= %f\n' % round(n[0].output_value, 4)
+        output_string += 'b= %f\n' % round(n[1].output_value, 4)
+        output_string += 'neuron= %f' % n[4].output()
+        
+
+
