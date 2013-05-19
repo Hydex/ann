@@ -7,9 +7,9 @@ def trainingData(length):
         b = randint(0, 1)
         c = a
         training_data.append(
-            {'input': (a, b), 'correct': c}
+            ((a, b),  c)
         )
-
+    return training_data
     #print 'creating training data...'
     #for i in training_data:
     #    print i

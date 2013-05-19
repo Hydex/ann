@@ -6,8 +6,7 @@ from os import system
 
 from training_data import training_data
 
-sigmoid = lambda x: 1 / (1 + exp(-x))
-            
+sigmoid = lambda u: 1 / (1 + exp(-u))
 
 class Neuron:
     
@@ -76,15 +75,20 @@ ann.addNeuron(6)
 n = ann.neurons
 r = dict()
 
+
 r[0] = n[0:2]
 r[1] = n[2:5]
 r[2] = n[5:7]
+
 
 for btm_neuron in r[0]:
     btm_neuron.is_input = True
     btm_neuron.output_value = 1
 
-ann.connectAllToAll (r[0], r[1]) (r[1], r[2])
+
+ann.connectAllToAll (r[0], r[1]) \
+                    (r[1], r[2]) \
+
 
 print
 for i in range(len(r)):
@@ -95,13 +99,13 @@ for i in range(len(r)):
 
 
 
-
-
-
-
-
-
-
+for t in training_data:
+    input_vector = t[0]
+    expected = t[1]
+    n[0].output_value = input_vector[0]
+    n[1].output_value = input_vector[1]
+    print '--------------------'
+    print input_vector, '-', expected, '-', round(n[5].output(), 5)
 
 
 
