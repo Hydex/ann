@@ -1,6 +1,6 @@
 #!/usr/bin/python2.7
 
-from numpy import exp
+from math import exp
 from time import sleep
 from os import system
 
