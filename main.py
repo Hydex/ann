@@ -44,7 +44,6 @@ class ANN:
         for bottom_neuron in bottom_row:
             for top_neuron in top_row:
                 self.newSynapse(bottom_neuron, top_neuron, default_weight)
-        return self.connectAllToAll
                 
     def weightAtSynapse(self, source_neuron, dest_neuron):
         return self.synapses[source_neuron.id][dest_neuron.id]
@@ -86,8 +85,8 @@ for btm_neuron in r[0]:
     btm_neuron.output_value = 1
 
 
-ann.connectAllToAll (r[0], r[1]) \
-                    (r[1], r[2]) \
+ann.connectAllToAll (r[0], r[1])
+ann.connectAllToAll (r[1], r[2])
 
 
 print
