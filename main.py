@@ -27,7 +27,7 @@ class Neuron:
         self.output_value = value
         
     def activation(self, sigma):
-        #return int(bool(sigma))
+        return int(bool(sigma))
         return sigmoid(sigma)
 
     def output(self):
