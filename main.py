@@ -8,6 +8,7 @@ from random import randint as rand_integer
 from training_data import training_data
 
 sigmoid = lambda u: 1 / (1 + exp(-u))
+
 def describeRows(r):
     print
     print 'rows:'
