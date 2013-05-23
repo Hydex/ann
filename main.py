@@ -3,7 +3,8 @@
 from math import exp
 from time import sleep
 from os import system
-
+from random import uniform as rand_uniform
+from random import randint as rand_integer
 from training_data import training_data
 
 sigmoid = lambda u: 1 / (1 + exp(-u))
@@ -12,7 +13,7 @@ class Neuron:
     
     def __init__(self, neuron_id, Ann, is_input=False, value=1):
         self.id = neuron_id
-        self.bias = 0
+        self.bias = rand_uniform(-1, 1)
         self.Ann = Ann
         self.is_input = is_input
         self.output_value = value
@@ -24,8 +25,8 @@ class Neuron:
     def output(self):
         if self.is_input:
             return self.output_value
-        sigma = self.bias
-        synapses = self.Ann.synapsesAt(self.id)
+        sigma = 0
+        synapses = self.Ann.synapsesAt(self)
         for synapse_id in synapses:
             sigma += self.Ann.valueAt(synapse_id) * synapses[synapse_id]
         return self.activation(sigma)
@@ -48,12 +49,18 @@ class ANN:
     def weightAtSynapse(self, source_neuron, dest_neuron):
         return self.synapses[source_neuron.id][dest_neuron.id]
     
-    def synapsesAt(self, neuron_id):
-        if self.synapses.has_key(neuron_id):
-            return self.synapses[neuron_id]
-        return {}
+    def synapsesAt(self, neuron):
+        synapses = {-1: neuron.bias}
+        if not self.synapses.has_key(neuron.id):
+            return synapses
+        for synapse_id in self.synapses[neuron.id]:
+            synapses[synapse_id] = self.synapses[neuron.id][synapse_id]
+        return synapses
     
     def valueAt(self, neuron_id):
+        # negative neuron_id means its going to be multiplied by a neuron bias
+        if neuron_id < 0:
+            return 1
         return self.neurons[neuron_id].output()
     
     def addNeuron(self, number_of=1):
@@ -68,16 +75,15 @@ class ANN:
             self.synapses[source_neuron.id] = dict()
         self.synapses[source_neuron.id][dest_neuron.id] = weight
 
-
 ann = ANN()
-ann.addNeuron(6)
+ann.addNeuron(5)
 n = ann.neurons
 r = dict()
 
 
 r[0] = n[0:2]
-r[1] = n[2:5]
-r[2] = n[5:7]
+r[1] = n[2:4]
+r[2] = n[4:6]
 
 
 for btm_neuron in r[0]:
@@ -90,42 +96,13 @@ ann.connectAllToAll (r[1], r[2])
 
 
 print
-for i in range(len(r)):
-    print 'row', i + 1, 'size:', len(r[i]), ', members:',
+print 'rows:'
+for i in range(len(r)-1, -1, -1):
+    print 'size:', len(r[i]), 'members:',
     for huh in r[i]:
         print huh.id,
     print
 
 
 
-for t in training_data:
-    input_vector = t[0]
-    expected = t[1]
-    n[0].output_value = input_vector[0]
-    n[1].output_value = input_vector[1]
-    print '--------------------'
-    print input_vector, '-', expected, '-', round(n[5].output(), 5)
 
-
-
-
-
-
-
-
-
-
-"""
-for b in range(0, 10):
-    for a in range(0, 10):
-        n[0].output_value = a / 10.0
-        n[1].output_value = b / 10.0
-
-        output_string  = 'a= %f\n' % round(n[0].output_value, 4)
-        output_string += 'b= %f\n' % round(n[1].output_value, 4)
-        output_string += 'neuron= %f' % n[4].output()
-
-        system('clear')
-        print output_string
-        sleep(0.1)
-"""
