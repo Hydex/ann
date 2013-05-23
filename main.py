@@ -8,6 +8,14 @@ from random import randint as rand_integer
 from training_data import training_data
 
 sigmoid = lambda u: 1 / (1 + exp(-u))
+def describeRows(r):
+    print
+    print 'rows:'
+    for i in range(len(r)-1, -1, -1):
+        print 'size:', len(r[i]), 'members:',
+        for huh in r[i]:
+            print huh.id,
+        print
 
 class Neuron:
     
@@ -21,7 +29,7 @@ class Neuron:
     def activation(self, sigma):
         #return int(bool(sigma))
         return sigmoid(sigma)
-    
+
     def output(self):
         if self.is_input:
             return self.output_value
@@ -40,14 +48,24 @@ class ANN:
     def __init__(self):
         self.neurons = list()
         self.synapses = dict()
+        self.learning_rate = 0.2
         
     def connectAllToAll(self, bottom_row, top_row, default_weight=1):
         for bottom_neuron in bottom_row:
             for top_neuron in top_row:
+                default_weight = rand_uniform(-1, 1) # delete this later?
                 self.newSynapse(bottom_neuron, top_neuron, default_weight)
                 
     def weightAtSynapse(self, source_neuron, dest_neuron):
         return self.synapses[source_neuron.id][dest_neuron.id]
+    
+    def setWeightAtSynapse(self, source_neuron, dest_neuron, weight):
+        self.synapses[source_neuron.id][dest_neuron.id] = weight
+
+    def addToWeightAtSynapse(self, source_neuron, dest_neuron, weight):
+        w = self.weightAtSynapse(source_neuron, dest_neuron)
+        self.setWeightAtSynapse(source_neuron, dest_neuron, w + weight)
+        return w + weight
     
     def synapsesAt(self, neuron):
         synapses = {-1: neuron.bias}
@@ -90,19 +108,28 @@ for btm_neuron in r[0]:
     btm_neuron.is_input = True
     btm_neuron.output_value = 1
 
-
 ann.connectAllToAll (r[0], r[1])
 ann.connectAllToAll (r[1], r[2])
 
+describeRows(r)
 
 print
-print 'rows:'
-for i in range(len(r)-1, -1, -1):
-    print 'size:', len(r[i]), 'members:',
-    for huh in r[i]:
-        print huh.id,
-    print
+print 'starting training:'
+while 1:
+    learn_rate = ann.learning_rate
+    for t_set in training_data:
+        input_a = t_set[0][0]
+        input_b = t_set[0][1]
+        target = t_set[1]
+        n[0].output_value = input_a
+        n[1].output_value = input_b
+        output = n[4].output()
+        #inWeight[0]+=rate*(test[i][2]-out)
 
-
-
+        new_weight = learn_rate * (target - output)
+        ann.setWeightAtSynapse(n[2], n[4], new_weight)
+        ann.setWeightAtSynapse(n[3], n[4], new_weight)
+ 
+        sleep(0.5)
+    print 'training set exhausted'
 
