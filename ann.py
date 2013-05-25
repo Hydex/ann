@@ -28,7 +28,7 @@ class Neuron:
         self.output_value = value
         
     def activation(self, sigma):
-        return int(sigma > 0)
+        #return int(sigma > 0)
         return sigmoid(sigma)
 
     def output(self):
@@ -49,10 +49,10 @@ class ANN:
     def __init__(self):
         self.neurons = list()
         self.synapses = dict()
-        self.learning_rate = 0.2
-        self.binary_threshold = 0.1
+        self.learning_rate = 0.01
+        self.binary_threshold = 0.5
 
-    def connectAllToAll(self, bottom_row, top_row):
+    def connectAllToAll(self, bottom_row, top_row): 
         for bottom_neuron in bottom_row:
             for top_neuron in top_row:
                 weight = rand_uniform(-1, 1)
@@ -117,7 +117,11 @@ describeRows(r)
 
 print
 print 'starting training:'
+i = 0
 while 1:
+    i += 1
+    if i> 5:
+        break
     learn_rate = ann.learning_rate
     for t_set in training_data:
         input_a = t_set[0][0]
@@ -125,8 +129,13 @@ while 1:
         target = t_set[1]
         n[0].output_value = input_a
         n[1].output_value = input_b
-        output = n[4].output()
+        output = n[2].output()
+
+
+        
         #inWeight[0]+=rate*(test[i][2]-out)
+
+        
         if output == target:
             wee = '***'
         else:
@@ -135,7 +144,20 @@ while 1:
         new_weight = learn_rate * (target - output)
         #print 'new weight:', new_weight
         ann.addToWeightAtSynapse(n[2], n[4], new_weight)
+
+
+
+        output = n[3].output()
+        new_weight = learn_rate * (target - output)
+
+        if output == target:
+            wee = '***'
+        else:
+            wee = ''
+        print input_a, input_b, target, output, wee
         ann.addToWeightAtSynapse(n[3], n[4], new_weight)
+
+
  
         sleep(0.01)
     print 'training set exhausted'
