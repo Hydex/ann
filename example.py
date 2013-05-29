@@ -1,3 +1,10 @@
+"""
+not my code
+
+found this on the ubuntu forums, using it for reference
+"""
+
+
 import time
 import random
 # Learning rate:
@@ -9,10 +16,10 @@ inWeight=[random.uniform(0, 1), random.uniform(0, 1)]
 # Start neuron with no stimuli
 inNeuron=[0.0, 0.0]
 # Learning table (or gate)
-test =[[0.0, 0.0, 0.0]]
-test+=[[0.0, 1.0, 1.0]]
-test+=[[1.0, 0.0, 1.0]]
-test+=[[1.0, 1.0, 1.0]]
+test =  [[0.0, 0.0, 0.0]]
+test += [[0.0, 1.0, 1.0]]
+test += [[1.0, 0.0, 1.0]]
+test += [[1.0, 1.0, 1.0]]
 
 # Calculate response from neural input
 def outNeuron(midThresh):
