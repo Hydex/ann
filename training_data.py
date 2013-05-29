@@ -1,4 +1,5 @@
 from random import randint
+from os import system
 
 def trainingData(length):
     training_data = list()
@@ -14,4 +15,9 @@ def trainingData(length):
     #for i in training_data:
     #    print i
 
-training_data = trainingData(100)
+def printLearnInfo(input_a, input_b, target, output):
+    if (output > 0.5 and target == 1) or (output < 0.5 and target == 0):
+        print input_a, input_b, target, output, '***'
+    else:
+        print input_a, input_b, target, output
+        

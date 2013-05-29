@@ -33,9 +33,7 @@ for i in range(10000):
     # Loop through each lesson in the learning table
     for i in range(len(test)):
         # Stimulate neurons with test input
-	# miles wrote the following 4 lines so that the test cases to be randomly 
-	# generated because it's cooler to feed a random stream of data, idk
-	test[i][0] = random.randint(0, 1)
+        test[i][0] = random.randint(0, 1)
 	test[i][1] = random.randint(0, 1)
 	test[i][2] = int(test[i][0])
 	#print 'a:', test[i][0]
