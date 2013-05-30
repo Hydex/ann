@@ -5,7 +5,7 @@ ANN
 <strong>An Experiment in Python</strong>
 
 
-<img src="http://upload.wikimedia.org/wikipedia/commons/thumb/6/60/ArtificialNeuronModel_english.png/600px-ArtificialNeuronModel_english.png" alt="ann_image" />
+<img src="http://home.agh.edu.pl/~vlsi/AI/backp_t_en/backprop_files/img19.gif" alt="ann_image" />
 
 Artificial neuron with input synapses X1 -> Xn and their respective current weight values W1j -> Wnj
 
