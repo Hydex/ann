@@ -3,17 +3,18 @@
 from math import exp
 from time import sleep
 from os import system
+from pprint import pprint
 from random import uniform as rand_uniform
 from random import randint as rand_integer
 from training_data import *
 
 sigmoid = lambda u: 1 / (1 + exp(-u))
+derivative = lambda u: sigmoid(u) * (1 - sigmoid(u))
 
 def describeRows(r):
     print
-    print 'rows:'
     for i in range(len(r)-1, -1, -1):
-        print 'size:', len(r[i]), 'members:',
+        print 'row', i+1, 'members:',
         for huh in r[i]:
             print huh.id,
         print
@@ -26,9 +27,12 @@ class Neuron:
         self.Ann = Ann
         self.is_input = is_input
         self.output_value = value
+
+    def __repr__(self):
+        return 'Neuron %d' % self.id
         
     def activation(self, sigma):
-        return int(sigma > 0)
+        #return int(sigma > 0)
         return sigmoid(sigma)
 
     def output(self):
@@ -64,7 +68,7 @@ class ANN:
         #if self.synapse[dendrite.id].has_key[axon.id]:
         if weight == 'r':
             weight = rand_uniform(-1, 1)
-        print 'creating synapse from', axon.id, 'to', dendrite.id, 'with', weight
+        print 'creating synapse from', axon.id, 'to', dendrite.id, 'with random weight', weight
         self.synapses[dendrite.id][axon.id] = weight
 
     def weightAtSynapse(self, axon, dendrite):
@@ -74,8 +78,6 @@ class ANN:
         self.synapses[dendrite.id][axon.id] = weight
 
     def addToWeightAtSynapse(self, axon, dendrite, weight):
-        #if weight:
-            #print 'adjusting weight', round(self.synapses[dendrite.id][axon.id], 4), 'by', weight
         self.synapses[dendrite.id][axon.id] += weight
 
     def synapsesAt(self, dendrite):
@@ -94,24 +96,50 @@ class ANN:
             self.neurons.append(neuron)
 
 
+
+
+
+
+
+
+
+
+
+
 ann = ANN()
-ann.addNeuron(3)
+ann.addNeuron(6)
 n = ann.neurons
 r = dict()
 
 
 r[0] = n[0:2]
-r[1] = n[2:3]
+r[1] = n[2:5]
+r[2] = n[5:6]
 
 
 for btm_neuron in r[0]:
     btm_neuron.is_input = True
     btm_neuron.output_value = 1
 
+
 ann.connectAllToAll (r[0], r[1])
+ann.connectAllToAll (r[1], r[2])
+
 
 describeRows(r)
 
+
+
+
+
+
+
+
+
+
+
+
+"""
 print
 print 'starting training:'
 i = 0
@@ -134,3 +162,4 @@ for t_set in trainingData(1000):
     ann.addToWeightAtSynapse(n[1], n[2], new_weight)
     sleep(0.01)
 print 'training set exhausted'
+"""
