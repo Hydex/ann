@@ -8,13 +8,14 @@ from random import uniform as rand_uniform
 from random import randint as rand_integer
 from training_data import *
 
-sigmoid = lambda u: 1 / (1 + exp(-u))
-derivative = lambda u: sigmoid(u) * (1 - sigmoid(u))
 
 def describeRows(r):
     print
     for i in range(len(r)-1, -1, -1):
-        print 'row', i+1, 'members:',
+        fucknugget = 'row ' + str(i)
+        if i == 0:
+            fucknugget = 'input'
+        print fucknugget, 'members:',
         for huh in r[i]:
             print huh.id,
         print
@@ -28,12 +29,13 @@ class Neuron:
         self.is_input = is_input
         self.output_value = value
 
-    def __repr__(self):
-        return 'Neuron %d' % self.id
-        
-    def activation(self, sigma):
-        #return int(sigma > 0)
-        return sigmoid(sigma)
+    def activation(self, u):
+        "activation function here is the sigmoid"
+        return 1 / (1 + exp(-u))
+
+    def activationDerivative(self, u):
+        "first derivative of the sigmoid function"
+        return self.activation(u) * (1 - self.activation(u))
 
     def output(self):
         if self.is_input:
@@ -107,14 +109,15 @@ class ANN:
 
 
 ann = ANN()
-ann.addNeuron(6)
+ann.addNeuron(8)
 n = ann.neurons
 r = dict()
 
 
 r[0] = n[0:2]
 r[1] = n[2:5]
-r[2] = n[5:6]
+r[2] = n[5:7]
+r[3] = n[7:8]
 
 
 for btm_neuron in r[0]:
@@ -124,6 +127,7 @@ for btm_neuron in r[0]:
 
 ann.connectAllToAll (r[0], r[1])
 ann.connectAllToAll (r[1], r[2])
+ann.connectAllToAll (r[2], r[3])
 
 
 describeRows(r)
