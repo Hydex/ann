@@ -24,7 +24,7 @@ class Neuron:
     
     def __init__(self, neuron_id, Ann, is_input=False, value=1):
         self.id = neuron_id
-        self.bias = 0#rand_uniform(-1, 1)
+        self.bias = 0
         self.Ann = Ann
         self.is_input = is_input
         self.output_value = value
@@ -215,3 +215,4 @@ for t_set in trainingData(1000):
     sleep(0.01)
 print 'training set exhausted'
 """
+\
