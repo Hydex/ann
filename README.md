@@ -12,3 +12,11 @@ and, generally, f(e) = sigmoid(e)
 <br>
 
 <a href="http://home.agh.edu.pl/~vlsi/AI/backp_t_en/backprop.html">Here's a reference</a>
+
+<br>
+
+And here's some suggested listening
+
+<br>
+
+<iframe width="420" height="315" src="http://www.youtube.com/embed/y9L5zbaQML0?rel=0" frameborder="0" allowfullscreen></iframe>
