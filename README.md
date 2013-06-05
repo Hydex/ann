@@ -11,7 +11,7 @@ Where e is a linear combination of all of a neuron's input values multiplied by 
 and, generally, f(e) = sigmoid(e)
 <br>
 
-Here's an in-depth <a href="http://home.agh.edu.pl/~vlsi/AI/backp_t_en/backprop.html">visualization</a> of the back-propogation learning algorithm
+Here's a really nice <a href="http://home.agh.edu.pl/~vlsi/AI/backp_t_en/backprop.html">explanation</a> of the learning algorithm
 
 <br>
 
