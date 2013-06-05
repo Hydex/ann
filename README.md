@@ -15,8 +15,4 @@ and, generally, f(e) = sigmoid(e)
 
 <br>
 
-And here's some suggested listening
-
-<br>
-
-<iframe width="420" height="315" src="http://www.youtube.com/embed/y9L5zbaQML0?rel=0" frameborder="0" allowfullscreen></iframe>
+And here's some <a href="http://www.youtube.com/watch?v=y9L5zbaQML0">suggested listening</a>
