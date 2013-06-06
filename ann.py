@@ -22,14 +22,12 @@ class Neuron:
 
     def activation(self, u):
         return 1 / (1 + exp(-u))
-        return 
 
     def activationDerivative(self, u):
         return self.activation(u) * (1 - self.activation(u))
-        return
 
     def output(self):
-        print 'outputting for', self.id
+       # print 'outputting for', self.id
         if self.is_input:
             return self.output_override
 
@@ -51,7 +49,6 @@ class Neuron:
 
     def setValue(self, value):
         self.output_value = value
-        pass
 
 class ANN:
 
@@ -148,14 +145,11 @@ class ANN:
                 derivative = self.derivativeOutputAt(dendrite_id)
                 output = self.outputAt(axon_id)
 
-                new_weights[axon_id][dendrite_id] = weight + 1.0 * rate*error*derivative*output
+                new_weights[axon_id][dendrite_id] = weight + rate*error*derivative*output
         return new_weights
-
-"""
         for axon_id in new_weights:
             for dendrite_id in new_weights:
-                self.setSynapse(axon_id, dendrite_id, 4)#new_weights[axon_id][dendrite_id])
-"""
+                self.setSynapse(dendrite_id, axon_id, new_weights[axon_id][dendrite_id])
 
 
 
@@ -196,9 +190,9 @@ pretty(ann.synapses_by_axon)
 print
 
 
-#peepee =  n[7].output()
-#print 'final output:', peepee
-#print
+peepee =  n[7].output()
+print 'final output:', peepee
+print
 
 
 ann.computeErrors(1, 0)
@@ -221,7 +215,3 @@ print
 
 
 
-
-"""
-
-"""
