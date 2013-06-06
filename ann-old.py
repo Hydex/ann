@@ -9,17 +9,6 @@ from random import randint as rand_integer
 from training_data import *
 
 
-def describeRows(r):
-    print
-    for i in range(len(r)-1, -1, -1):
-        fucknugget = 'row ' + str(i)
-        if i == 0:
-            fucknugget = 'input'
-        print fucknugget, 'members:',
-        for huh in r[i]:
-            print huh.id,
-        print
-
 class Neuron:
     
     def __init__(self, neuron_id, Ann, is_input=False, value=1):
