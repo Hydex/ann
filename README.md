@@ -1,4 +1,4 @@
-ANN 
+ANN - Artificial Neural Network
 ===
 
 
