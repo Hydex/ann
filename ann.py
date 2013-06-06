@@ -27,7 +27,7 @@ class Neuron:
         return self.activation(u) * (1 - self.activation(u))
 
     def output(self):
-       # print 'outputting for', self.id
+        print 'outputting for', self.id
         if self.is_input:
             return self.output_override
 
