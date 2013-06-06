@@ -22,9 +22,11 @@ class Neuron:
 
     def activation(self, u):
         return 1 / (1 + exp(-u))
+        return 
 
     def activationDerivative(self, u):
         return self.activation(u) * (1 - self.activation(u))
+        return
 
     def output(self):
         print 'outputting for', self.id
@@ -49,7 +51,7 @@ class Neuron:
 
     def setValue(self, value):
         self.output_value = value
-
+        pass
 
 class ANN:
 
@@ -58,7 +60,6 @@ class ANN:
         self.synapses_by_dendrite = dict()
         self.synapses_by_axon = dict()
         self.learning_rate = 0.2
-
 
     def setSynapse(self, axon, dendrite, weight):
         axon_id = mutil.extractNeuronId(axon)
@@ -74,12 +75,14 @@ class ANN:
         neuron_id = mutil.extractNeuronId(dendrite)
         if self.synapses_by_dendrite.has_key(neuron_id):
             return self.synapses_by_dendrite[neuron_id]
+        print 'no synapses found'
         return {}
 
     def getAllSynapsesByAxon(self, axon):
         neuron_id = mutil.extractNeuronId(axon)
         if self.synapses_by_axon.has_key(neuron_id):
             return self.synapses_by_axon[neuron_id]
+        print 'no synapses found'
         return {}
 
     def weightAtSynapse(self, axon, dendrite):
@@ -90,7 +93,7 @@ class ANN:
     def connectAllToAll(self, bottom_row, top_row): 
         for bottom_neuron in bottom_row:
             for top_neuron in top_row:
-                weight = rand_uniform(-1, 1)
+                weight = 1#rand_uniform(-1, 1)
                 self.setSynapse(bottom_neuron, top_neuron, weight)
 
     def computeErrors(self, target, output):
@@ -147,6 +150,7 @@ class ANN:
 
                 new_weights[axon_id][dendrite_id] = weight + 1.0 * rate*error*derivative*output
         return new_weights
+
 """
         for axon_id in new_weights:
             for dendrite_id in new_weights:
@@ -197,7 +201,7 @@ print
 #print
 
 
-ann.computeErrors(0, 1)
+ann.computeErrors(1, 0)
 print
 ann.adjustWeights()
 
@@ -210,7 +214,7 @@ print
 print 'synapses by axon:'
 pretty(ann.synapses_by_axon)
 print
-#peepee =  n[7].output()
+peepee =  n[7].output()
 print 'final output:', peepee
 print
 
