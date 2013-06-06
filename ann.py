@@ -1,5 +1,4 @@
-#!/usr/bin/python2.7
-peepee = 23
+#!/usr/bin/python
 from math import exp
 from time import sleep
 from os import system
@@ -27,10 +26,9 @@ class Neuron:
         return self.activation(u) * (1 - self.activation(u))
 
     def output(self):
-        print 'outputting for', self.id
+        #print 'outputting for', self.id
         if self.is_input:
             return self.output_override
-
         sigma = 0
         synapses = self.Ann.getAllSynapsesByDendrite(self)
         for synapse_id in synapses:
@@ -38,7 +36,7 @@ class Neuron:
         return self.activation(sigma)
     
     def derivativeOutput(self):
-        print 'outputting derivative for', self.id
+        #print 'outputting derivative for', self.id
         if self.is_input:
             return self.output_override
         sigma = 0
@@ -56,13 +54,13 @@ class ANN:
         self.neurons = dict()
         self.synapses_by_dendrite = dict()
         self.synapses_by_axon = dict()
-        self.learning_rate = 0.2
+        self.learning_rate = 5
 
     def setSynapse(self, axon, dendrite, weight):
         axon_id = mutil.extractNeuronId(axon)
         dendrite_id = mutil.extractNeuronId(dendrite)
 
-        print 'setting synapse from', axon_id, 'to', dendrite_id, 'with weight', weight
+        #print 'setting synapse from', axon_id, 'to', dendrite_id, 'with weight', weight
         mutil.makeDictIfNot(self.synapses_by_dendrite, dendrite_id)
         mutil.makeDictIfNot(self.synapses_by_axon, axon_id)
         self.synapses_by_dendrite[dendrite_id][axon_id] = weight
@@ -72,14 +70,14 @@ class ANN:
         neuron_id = mutil.extractNeuronId(dendrite)
         if self.synapses_by_dendrite.has_key(neuron_id):
             return self.synapses_by_dendrite[neuron_id]
-        print 'no synapses found'
+        #print 'no synapses found'
         return {}
 
     def getAllSynapsesByAxon(self, axon):
         neuron_id = mutil.extractNeuronId(axon)
         if self.synapses_by_axon.has_key(neuron_id):
             return self.synapses_by_axon[neuron_id]
-        print 'no synapses found'
+        #print 'no synapses found'
         return {}
 
     def weightAtSynapse(self, axon, dendrite):
@@ -98,7 +96,7 @@ class ANN:
         for neuron_id in sorted(self.neurons.keys(), reverse=True):
             if at_max_neuron:
                 at_max_neuron = False
-                print 'setting error at', neuron_id, 'to', target - output
+                #print 'setting error at', neuron_id, 'to', target - output
                 self.neurons[neuron_id].error = target - output
                 continue
             new_error = 0
@@ -129,10 +127,10 @@ class ANN:
     def setErrorAt(self, neuron, error):
         neuron_id = mutil.extractNeuronId(neuron)
         if self.neurons.has_key(neuron_id):
-            print 'setting error at', neuron_id, 'to', error
+            #print 'setting error at', neuron_id, 'to', error
             self.neurons[neuron_id].error = error
 
-    def adjustWeights(self):
+    def adjustedWeights(self):
         new_weights = dict()
         for axon_id in sorted(self.neurons.keys(), reverse=False):
             mutil.makeDictIfNot(new_weights, axon_id)
@@ -145,12 +143,14 @@ class ANN:
                 derivative = self.derivativeOutputAt(dendrite_id)
                 output = self.outputAt(axon_id)
 
-                new_weights[axon_id][dendrite_id] = weight + rate*error*derivative*output
-        return new_weights
-        for axon_id in new_weights:
-            for dendrite_id in new_weights:
-                self.setSynapse(dendrite_id, axon_id, new_weights[axon_id][dendrite_id])
+                new_weights[axon_id][dendrite_id] = weight + rate * error * derivative * output
 
+        #return new_weights
+
+        for axon_id in new_weights:
+            for dendrite_id in new_weights[axon_id]:
+                self.setSynapse(axon_id, dendrite_id, new_weights[axon_id][dendrite_id])
+#                print axon_id, '->', dendrite_id
 
 
 
@@ -178,6 +178,32 @@ ann.connectAllToAll(r[0], r[1])
 ann.connectAllToAll(r[1], r[2])
 ann.connectAllToAll(r[2], r[3])
 
+initial_weights = deepcopy(ann.synapses_by_axon)
+
+for i in range(500):
+    for test in [[0, 1], [1, 0]]:
+        n[0].output_override = test[0]
+        n[1].output_override = test[1]
+        target = test[0]
+        output = ann.outputAt(7)
+        ann.computeErrors(target, output)
+        ann.adjustedWeights()
+        system('clear');
+        print 'input:', test
+        print 'target:', target
+        print 'output:', output
+        print
+        print 'synapses[axon_id][dendrite_id] == weight:'
+        pretty(ann.synapses_by_axon)
+        sleep(0.1)
+
+def s(x, y):
+    n[0].output_override = x
+    n[1].output_override = y
+
+
+
+"""
 
 mutil.describeRows(r)
 
@@ -197,21 +223,5 @@ print
 
 ann.computeErrors(1, 0)
 print
-ann.adjustWeights()
-
-
-
-print
-print 'synapses by dendrite:'
-pretty(ann.synapses_by_dendrite)
-print
-print 'synapses by axon:'
-pretty(ann.synapses_by_axon)
-print
-peepee =  n[7].output()
-print 'final output:', peepee
-print
-
-
-
-
+w = ann.adjustedWeights()
+"""
