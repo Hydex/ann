@@ -7,7 +7,6 @@ from pprint import pprint as pretty
 from random import uniform as rand_uniform
 from random import randint as rand_integer
 import mutil
-from training_data import *
 
 
 class Neuron:
@@ -196,7 +195,7 @@ def set(t):
     #return n[7].output()
 
 
-for i in range(5000):
+for i in range(2000):
     for test in [[1, 1], [0, 0], [1, 0], [0, 1]]:
         set(test)
         target = test[0]#mutil.xor(test[0], test[1])
@@ -206,18 +205,21 @@ for i in range(5000):
         #system('clear');
         ann.adjustWeights()
 
-        if i>3000:
-            system('clear');
+        if not (i+1)%50:
+            system('clear')
+            print 'training cycle', i+1
             print 'input:', test
             print 'target:', target
             print 'output:', output
             print
-            print 'synapses[axon_id][dendrite_id] == weight:'
+            print 'synaptic weight matrix:'
             pretty(ann.synapses_by_dendrite)
-            sleep(0.5)
-
+            sleep(1)
+print
+print 'final output results:'
 for test in [[1, 1], [0, 0], [1, 0], [0, 1]]:
-    print test, set(test)
+    set(test)
+    print test, n[7].output()
 
 """
 mutil.describeRows(r)
