@@ -8,7 +8,7 @@ ANN - Artificial Neural Network
 <br>
 Where e is a linear combination of all of a neuron's input values multiplied by their synaptic weights
 <br>
-and, generally, f(e) = sigmoid(e)
+and f(e) = sigmoid(e)
 <br>
 
 Here's a really good <a href="http://home.agh.edu.pl/~vlsi/AI/backp_t_en/backprop.html">explanation</a> of the algorithm
