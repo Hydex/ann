@@ -54,7 +54,7 @@ class ANN:
         self.neurons = dict()
         self.synapses_by_dendrite = dict()
         self.synapses_by_axon = dict()
-        self.learning_rate = 5
+        self.learning_rate = 1
 
     def setSynapse(self, axon, dendrite, weight):
         axon_id = mutil.extractNeuronId(axon)
@@ -130,7 +130,7 @@ class ANN:
             #print 'setting error at', neuron_id, 'to', error
             self.neurons[neuron_id].error = error
 
-    def adjustedWeights(self):
+    def adjustWeights(self):
         new_weights = dict()
         for axon_id in sorted(self.neurons.keys(), reverse=False):
             mutil.makeDictIfNot(new_weights, axon_id)
@@ -142,16 +142,16 @@ class ANN:
                 rate = self.learning_rate
                 derivative = self.derivativeOutputAt(dendrite_id)
                 output = self.outputAt(axon_id)
-
                 new_weights[axon_id][dendrite_id] = weight + rate * error * derivative * output
+                self.setSynapse(axon_id, dendrite_id, new_weights[axon_id][dendrite_id])
 
         #return new_weights
-
+"""
         for axon_id in new_weights:
             for dendrite_id in new_weights[axon_id]:
                 self.setSynapse(axon_id, dendrite_id, new_weights[axon_id][dendrite_id])
 #                print axon_id, '->', dendrite_id
-
+"""
 
 
 
@@ -171,40 +171,55 @@ r[2] = [n[5], n[6]]
 r[1] = [n[2], n[3], n[4]]
 r[0] = [n[0], n[1]]
 
+#n[8].is_input = True
+#n[8].output_override = 1
+
 for b in r[0]:
     b.is_input = True
+
+#for b in n:
+#    b = n[b]
+#    if not b.is_input:
+#        ann.setSynapse(n[8], b, 1)
 
 ann.connectAllToAll(r[0], r[1])
 ann.connectAllToAll(r[1], r[2])
 ann.connectAllToAll(r[2], r[3])
 
+
 initial_weights = deepcopy(ann.synapses_by_axon)
 
-for i in range(500):
-    for test in [[0, 1], [1, 0]]:
-        n[0].output_override = test[0]
-        n[1].output_override = test[1]
-        target = test[0]
+
+def set(t):
+    n[0].output_override = t[0]
+    n[1].output_override = t[1]
+    #return n[7].output()
+
+
+for i in range(5000):
+    for test in [[1, 1], [0, 0], [1, 0], [0, 1]]:
+        set(test)
+        target = test[0]#mutil.xor(test[0], test[1])
         output = ann.outputAt(7)
+
         ann.computeErrors(target, output)
-        ann.adjustedWeights()
-        system('clear');
-        print 'input:', test
-        print 'target:', target
-        print 'output:', output
-        print
-        print 'synapses[axon_id][dendrite_id] == weight:'
-        pretty(ann.synapses_by_axon)
-        sleep(0.1)
+        #system('clear');
+        ann.adjustWeights()
 
-def s(x, y):
-    n[0].output_override = x
-    n[1].output_override = y
+        if i>3000:
+            system('clear');
+            print 'input:', test
+            print 'target:', target
+            print 'output:', output
+            print
+            print 'synapses[axon_id][dendrite_id] == weight:'
+            pretty(ann.synapses_by_dendrite)
+            sleep(0.5)
 
-
+for test in [[1, 1], [0, 0], [1, 0], [0, 1]]:
+    print test, set(test)
 
 """
-
 mutil.describeRows(r)
 
 print
