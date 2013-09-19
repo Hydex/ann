@@ -1,4 +1,7 @@
 #!/usr/bin/python
+#
+# 2013 Miles Smith
+
 from math import exp
 from time import sleep
 from os import system
