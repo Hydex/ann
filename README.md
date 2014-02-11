@@ -6,7 +6,7 @@ ANN - Artificial Neural Network
 
 <img src="http://home.agh.edu.pl/~vlsi/AI/backp_t_en/backprop_files/img19.gif" alt="ann_image" />
 <br>
-Where e is a linear combination of all of a neuron's input values multiplied by their synaptic weights
+Where e is a linear combination of all of a neuron's input values multiplied by its synaptic weights
 <br>
 and f(e) = sigmoid(e)
 <br>
